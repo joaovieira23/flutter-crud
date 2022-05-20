@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -17,5 +19,22 @@ class Users with ChangeNotifier {
 
   User byIndex(int i) {
     return _items.values.elementAt(i);
+  }
+
+  void put(User user) {
+    if(user == null) {
+      return;
+    }
+
+    final id = Random().nextDouble().toString();
+    _items.putIfAbsent(id, () => User(
+      id: id,
+      name: user.name,
+      email: user.email,
+      avatarUrl: user.avatarUrl
+    ));
+
+    // Adicionar ou alterar se já existir
+    notifyListeners();
   }
 }
