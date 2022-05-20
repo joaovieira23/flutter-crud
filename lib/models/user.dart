@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class User {
   final String id;
   final String name;
@@ -9,5 +11,5 @@ class User {
     required this.name,
     required this.email,
     required this.avatarUrl
-  })
+  });
 }
