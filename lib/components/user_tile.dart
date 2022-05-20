@@ -19,8 +19,15 @@ class UserTitle extends StatelessWidget {
       trailing: Container(
         width: 100,
         child: Row(children: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+          IconButton(
+            onPressed: () {}, 
+            color: Colors.orange,
+            icon: Icon(Icons.edit)
+            ),
+          IconButton(
+            onPressed: () {}, 
+            color: Colors.red,
+            icon: Icon(Icons.delete)),
         ]),
       ),
     );
