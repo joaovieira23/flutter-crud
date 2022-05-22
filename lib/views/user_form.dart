@@ -1,9 +1,14 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_crud/models/user.dart';
+import 'package:flutter_crud/provider/users.dart';
+import 'package:provider/provider.dart'; 
 
 class UserForm extends StatelessWidget {
-  const UserForm({Key? key}) : super(key: key);
+
+  final _form = GlobalKey<FormState>();
+  final Map<String, String> _formData = {};
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,23 @@ class UserForm extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              Navigator.of(context).pop();
+              final isValid =_form.currentState?.validate();
+
+              if(isValid ?? false) {
+                _form.currentState?.save();
+
+
+                Provider.of<Users>(context, listen: false).put(
+                  User(
+                    id: _formData['id'],
+                    name: _formData['name'],
+                    email: _formData['email'],
+                    avatarUrl: _formData['avatarUrl'],
+                  ),
+                );
+
+                Navigator.of(context).pop();
+              }
             },
           )
         ],
@@ -22,16 +43,32 @@ class UserForm extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Form(
+          key: _form,
+
           child: Column(
             children: <Widget>[
               TextFormField(
+                validator: (value) {
+                  if(value == null || value.isEmpty) {
+                    return 'Nome inválido';
+                  }
+
+                  if(value.trim().length < 3) {
+                    return 'O nome deve ter no mínimo 3 letras';
+                  }
+
+                  return null;
+                },
+                onSaved: (value) => _formData['name'] = value!,
                 decoration: InputDecoration(labelText: 'Nome'),
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'E-mail'),
+                onSaved: (value) => _formData['email'] = value!,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'URL do Avatar'),
+                onSaved: (value) => _formData['avatarUrl'] = value!,
               ),
             ],
           ),

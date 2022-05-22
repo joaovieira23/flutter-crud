@@ -6,7 +6,7 @@ class User {
   final String email;
   final String avatarUrl;
 
-  const User({
+  const User(String? id, {
     this.id = '0',
     required this.name,
     required this.email,
